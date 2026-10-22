@@ -39,7 +39,7 @@ export default function ConfirmDialog({
     <Modal open={open} onClose={working ? () => {} : onClose} title={title || t('common.deleteConfirmTitle')} size="sm">
       <div className="flex gap-3">
         <div
-          className={`shrink-0 rounded-full p-2 h-fit ${
+          className={`shrink-0 rounded-[var(--radius-control)] p-2 h-fit ${
             danger ? 'bg-[var(--color-danger-soft)] text-[var(--color-danger)]' : 'bg-[var(--color-primary-soft)] text-[var(--color-primary)]'
           }`}
         >

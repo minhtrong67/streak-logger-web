@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
 import { LangProvider } from './context/LangContext'
@@ -17,14 +17,15 @@ const Statistics = lazy(() => import('./pages/Statistics'))
 const Settings = lazy(() => import('./pages/Settings'))
 
 /**
- * Màn hình chờ trong lúc Firebase xác định phiên đăng nhập. Cùng màu với splash
- * của PWA (tím đậm ở giao diện sáng, đen ở giao diện tối) nên chuyển tiếp liền mạch.
+ * Màn hình chờ trong lúc Firebase xác định phiên đăng nhập. Dùng đúng màu nền của
+ * giao diện đang chọn (trắng hoặc gần đen) và giống #boot trong index.html,
+ * nên chuyển tiếp liền mạch từ splash sang ứng dụng.
  */
 function AuthLoading() {
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#5b21b6] dark:bg-zinc-950">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[var(--color-bg)]">
       <div className="pulse-soft">
-        <BrandMark size={88} />
+        <BrandMark size={72} />
       </div>
     </div>
   )
@@ -70,11 +71,6 @@ function AppRoutes() {
 }
 
 export default function App() {
-  // Khi React đã chạy, bỏ nền tạm của giai đoạn khởi động (xem index.html).
-  useEffect(() => {
-    document.documentElement.classList.remove('booting')
-  }, [])
-
   return (
     <LangProvider>
       <ThemeProvider>

@@ -4,7 +4,7 @@ const ThemeContext = createContext(null)
 const STORAGE_KEY = 'streak-logger:theme'
 
 /** Màu thanh trạng thái trình duyệt/PWA theo giao diện. */
-const THEME_COLOR = { light: '#7c3aed', dark: '#18181b' }
+const THEME_COLOR = { light: '#ffffff', dark: '#09090b' }
 
 /**
  * Áp dụng giao diện lên <html>: class `dark`, meta theme-color và manifest.
@@ -17,7 +17,11 @@ function applyTheme(mode) {
   const isDark = mode === 'dark' || (mode === 'system' && systemDark)
   root.classList.toggle('dark', isDark)
 
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? THEME_COLOR.dark : THEME_COLOR.light)
+  // Ghi đè mọi thẻ theme-color (kể cả thẻ theo media của hệ thống) để khớp lựa chọn trong ứng dụng.
+  document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+    meta.removeAttribute('media')
+    meta.setAttribute('content', isDark ? THEME_COLOR.dark : THEME_COLOR.light)
+  })
   document
     .getElementById('app-manifest')
     ?.setAttribute('href', isDark ? '/manifest-dark.webmanifest' : '/manifest.webmanifest')

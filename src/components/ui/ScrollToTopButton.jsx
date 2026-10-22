@@ -32,7 +32,7 @@ export default function ScrollToTopButton() {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-24 lg:bottom-6 right-4 lg:right-6 z-40 p-3 rounded-full bg-[var(--color-primary)] text-[var(--color-primary-ink)] shadow-[var(--shadow-card)] hover:opacity-90 hover:-translate-y-1 transition-all duration-300"
+      className="fixed bottom-24 lg:bottom-6 right-4 lg:right-6 z-40 p-2.5 rounded-[var(--radius-control)] bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-ink-soft)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface-2)] transition-colors duration-150"
       aria-label="Lên đầu trang"
     >
       <ArrowUp size={20} />

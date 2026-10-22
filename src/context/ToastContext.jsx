@@ -28,10 +28,10 @@ export function ToastProvider({ children }) {
   }), [push])
 
   const icons = { success: CheckCircle2, error: XCircle, info: Info }
-  const accentClass = {
-    success: 'border-l-4 border-[var(--color-success)]',
-    error: 'border-l-4 border-[var(--color-danger)]',
-    info: 'border-l-4 border-[var(--color-info)]',
+  const iconClass = {
+    success: 'text-[var(--color-success)]',
+    error: 'text-[var(--color-danger)]',
+    info: 'text-[var(--color-info)]',
   }
 
   return (
@@ -44,9 +44,9 @@ export function ToastProvider({ children }) {
             <div
               key={t.id}
               role="status"
-              className={`flex items-start gap-3 rounded-[var(--radius-card)] glass-surface shadow-[var(--shadow-modal)] px-4 py-3 text-sm text-[var(--color-ink)] ${accentClass[t.type]} animate-[toast-in_.25s_ease]`}
+              className={`flex items-start gap-3 rounded-[var(--radius-card)] glass-surface border border-[var(--color-border)] shadow-[var(--shadow-modal)] px-4 py-3 text-sm text-[var(--color-ink)] animate-[toast-in_.25s_ease]`}
             >
-              <Icon size={18} className="mt-0.5 shrink-0 text-[var(--color-ink-soft)]" />
+              <Icon size={18} className={`mt-0.5 shrink-0 ${iconClass[t.type]}`} />
               <span className="flex-1 leading-snug">{t.message}</span>
               <button onClick={() => remove(t.id)} className="text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]" aria-label="Đóng">
                 <X size={16} />

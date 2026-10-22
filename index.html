@@ -17,7 +17,7 @@
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
 
-    <!-- Splash screen iOS: nền đặc (tím đậm hoặc đen theo giao diện hệ thống), không có nền trắng. -->
+    <!-- Splash screen iOS: nền trắng (sáng) hoặc gần đen (tối) theo giao diện hệ thống, cùng màu nền với ứng dụng. -->
     <link rel="apple-touch-startup-image" href="/splash/light-1320x2868.png" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: light)" />
     <link rel="apple-touch-startup-image" href="/splash/dark-1320x2868.png" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: dark)" />
     <link rel="apple-touch-startup-image" href="/splash/light-1206x2622.png" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: light)" />
@@ -56,10 +56,11 @@
     <!-- Manifest PWA. Script bên dưới đổi sang bản tối nếu người dùng đang dùng giao diện tối. -->
     <link rel="manifest" id="app-manifest" href="/manifest.webmanifest" />
 
-    <!-- Màu thanh trạng thái, cập nhật lại bằng script theo giao diện đang chọn. -->
-    <meta name="theme-color" content="#7c3aed" />
+    <!-- Màu thanh trạng thái: mặc định theo hệ thống, script bên dưới ghi đè khi người dùng chọn giao diện riêng trong ứng dụng. -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Streak Logger" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="application-name" content="Streak Logger" />
@@ -84,9 +85,9 @@
     <title>Streak Logger | minhtrong67</title>
 
     <!--
-      Áp dụng giao diện sáng/tối, cỡ chữ và manifest TRƯỚC khi trình duyệt vẽ lần đầu.
-      Nhờ vậy khi mở PWA đã cài đặt, màn hình chờ không bị nháy nền trắng khi
-      người dùng đang dùng giao diện tối.
+      Áp dụng giao diện sáng/tối, cỡ chữ và manifest TRƯỚC khi trình duyệt vẽ khung hình đầu tiên.
+      Màn hình chờ (#boot) dùng đúng màu nền của ứng dụng ở từng giao diện, nên khi mở PWA
+      không có bước nháy màu lạ giữa splash của hệ điều hành, màn hình chờ và giao diện chính.
     -->
     <script>
       (function () {
@@ -97,12 +98,16 @@
             (theme === "system" &&
               window.matchMedia("(prefers-color-scheme: dark)").matches);
           var root = document.documentElement;
-          root.classList.add("booting");
           if (isDark) root.classList.add("dark");
           var size = localStorage.getItem("streak-logger:fontSize") || "md";
           root.style.fontSize = { sm: "15px", md: "16px", lg: "18px" }[size] || "16px";
-          var meta = document.querySelector('meta[name="theme-color"]');
-          if (meta) meta.setAttribute("content", isDark ? "#18181b" : "#7c3aed");
+          // Ghi đè theme-color theo lựa chọn trong ứng dụng (có thể khác giao diện hệ thống).
+          var color = isDark ? "#09090b" : "#ffffff";
+          var metas = document.querySelectorAll('meta[name="theme-color"]');
+          for (var i = 0; i < metas.length; i++) {
+            metas[i].removeAttribute("media");
+            metas[i].setAttribute("content", color);
+          }
           var manifest = document.getElementById("app-manifest");
           if (manifest && isDark) manifest.setAttribute("href", "/manifest-dark.webmanifest");
         } catch (e) {}
@@ -111,19 +116,17 @@
 
     <!-- CSS tối thiểu để nền đúng màu ngay từ khung hình đầu tiên, trước khi CSS chính tải xong. -->
     <style>
-      /* Màn hình chờ: tím đậm ở giao diện sáng, đen ở giao diện tối. Không dùng nền trắng. */
-      html { background: #fafafa; color-scheme: light; }
+      html { background: #ffffff; color-scheme: light; }
       html.dark { background: #09090b; color-scheme: dark; }
-      html.booting { background: #5b21b6; }
-      html.booting.dark { background: #09090b; }
       body { margin: 0; background: inherit; }
       #boot {
         position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-        background: #5b21b6;
+        background: #ffffff;
       }
       html.dark #boot { background: #09090b; }
-      #boot img { width: 88px; height: 88px; border-radius: 26px; animation: boot-pulse 1.4s ease-in-out infinite; }
-      @keyframes boot-pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .8; transform: scale(.94); } }
+      #boot img { width: 72px; height: 72px; border-radius: 16px; animation: boot-pulse 1.6s ease-in-out infinite; }
+      @keyframes boot-pulse { 0%,100% { opacity: 1; } 50% { opacity: .55; } }
+      @media (prefers-reduced-motion: reduce) { #boot img { animation: none; } }
     </style>
   </head>
   <body>

@@ -67,7 +67,7 @@ function OptionButton({ active, onClick, icon: Icon, label }) {
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`flex-1 flex flex-col items-center justify-center gap-2 rounded-[var(--radius-control)] border py-4 px-3 text-sm font-medium transition-all duration-150 active:scale-[0.97] ${
+      className={`flex-1 flex flex-col items-center justify-center gap-2 rounded-[var(--radius-control)] border py-4 px-3 text-sm font-medium transition-all duration-150 ${
         active
           ? "border-[var(--color-primary)] bg-[var(--color-primary-soft)] text-[var(--color-primary)]"
           : "border-[var(--color-border)] text-[var(--color-ink-soft)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-ink)]"

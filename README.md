@@ -15,9 +15,9 @@ Phát triển bởi **minhtrong67**, có sự hỗ trợ của **Claude (Anthrop
   - **Xuất dữ liệu** ra CSV, JSON, Excel, Word, PDF và ảnh PNG. Có thể xuất toàn bộ hoặc chỉ các mục đã chọn.
 - **Thống kê**: thẻ số liệu nổi bật, biểu đồ cột dọc và biểu đồ tròn có đầy đủ nhãn và chú thích. Xem theo **ngày, tuần, tháng, năm** (mặc định theo tháng), chuyển giữa các kỳ. **Xuất báo cáo PDF** theo mức đang chọn, dùng font Unicode nhúng sẵn nên không lỗi chữ tiếng Việt.
 - **Cài đặt**: giao diện sáng, tối, hệ thống; cỡ chữ 3 mức; thẻ cài đặt ứng dụng (khi chưa cài); xuất toàn bộ dữ liệu; khôi phục mặc định; đăng xuất.
-- **PWA** cài đặt được trên điện thoại. Màn hình chờ khi mở app đã cài **khớp với giao diện sáng hoặc tối** đang dùng, không bị nháy nền trắng.
+- **PWA** cài đặt được trên điện thoại. Màn hình chờ khi mở app đã cài **khớp với giao diện sáng hoặc tối** đang dùng, không bị nháy màu lạ giữa splash, màn hình chờ và giao diện chính.
 - **Kiểm tra dữ liệu chặt chẽ**: mọi trường được tự động loại bỏ khoảng trắng thừa, kiểm tra độ dài, ngày giờ hợp lệ. Nhập sai sẽ hiện toast lỗi và không được lưu. Firestore Rules kiểm tra lại ở phía server.
-- **Giao diện Modern Minimalist**, màu chủ đạo Violet của Tailwind CSS, giao diện tối dùng thang màu Zinc, font hệ thống `system-ui`, icon Lucide, skeleton khi tải, hiệu ứng chuyển động nhẹ, responsive ưu tiên mobile với bottom bar 4 tab.
+- **Giao diện Modern Minimalist**: nền phẳng, phân tách bằng đường viền mảnh thay vì đổ bóng hay gradient, bo góc nhỏ đồng đều, bảng màu trung tính (Zinc) với Violet chỉ làm màu nhấn cho nút chính, mục đang chọn và vòng focus. Font hệ thống `system-ui`, icon Lucide, skeleton khi tải, chuyển động ngắn và nhẹ, responsive ưu tiên mobile với bottom bar 4 tab.
 
 ## Công nghệ
 
@@ -126,7 +126,9 @@ firestore.rules  quy tắc bảo mật Firestore
 ## Ghi chú về PWA và màn hình chờ
 
 - **Icon và favicon** dùng đúng logo ngọn lửa ở header và sidebar (`public/favicon.svg` là nguồn, các ảnh PNG trong `public/icons` được xuất từ file này).
-- **Màn hình chờ không bao giờ có nền trắng**: nền tím đậm (`#5b21b6`) ở giao diện sáng và đen (`#09090b`) ở giao diện tối, với logo ở giữa. Android lấy màu từ `manifest.webmanifest` (hoặc `manifest-dark.webmanifest`), iOS lấy từ các ảnh trong `public/splash` (khai báo trong `index.html`, tự chọn sáng hoặc tối theo giao diện hệ thống), còn khung chờ khi trang đang tải là phần `#boot` trong `index.html`.
+- **Màn hình chờ theo giao diện sáng/tối**: nền trắng (`#ffffff`) ở giao diện sáng và gần đen (`#09090b`) ở giao diện tối, trùng với màu nền `--color-bg` của ứng dụng, logo ở giữa. iOS lấy từ các ảnh trong `public/splash` (khai báo trong `index.html`, tự chọn sáng hoặc tối theo **giao diện hệ thống**), Android lấy màu từ `manifest.webmanifest` hoặc `manifest-dark.webmanifest`, còn khung chờ khi trang đang tải là phần `#boot` trong `index.html` (theo giao diện đã lưu trong ứng dụng).
+- **Giới hạn của hệ điều hành**: ảnh splash của iOS và màu nền splash của Android do hệ điều hành đọc, không đọc được lựa chọn giao diện bên trong ứng dụng. Nếu bạn chọn Sáng/Tối khác với giao diện hệ thống, splash của hệ điều hành vẫn theo hệ thống, sau đó `#boot` đổi sang đúng giao diện đã chọn.
+- Thanh trạng thái iOS dùng kiểu `default` (tự đổi chữ đen/trắng theo giao diện hệ thống) thay cho `black-translucent` để không bị chữ trắng trên nền sáng.
 - Trước khi React chạy, một đoạn script nhỏ trong `index.html` đọc giao diện đã lưu và áp dụng ngay lớp `dark`, màu nền và manifest tương ứng, nên khung hình đầu tiên luôn đúng màu.
 - Với ứng dụng đã cài, hệ điều hành đọc lại manifest theo chu kỳ của nó. Sau khi cập nhật icon hoặc splash, hãy gỡ rồi cài lại ứng dụng để thấy thay đổi.
 

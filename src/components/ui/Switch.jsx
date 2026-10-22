@@ -11,7 +11,7 @@ export default function Switch({ checked, onChange, label }) {
       }`}
     >
       <span
-        className={`inline-block w-5 h-5 bg-white rounded-full shadow-sm transform transition-transform duration-200 ${
+        className={`inline-block w-5 h-5 bg-white rounded-full transform transition-transform duration-200 ${
           checked ? 'translate-x-[22px]' : 'translate-x-[2px]'
         }`}
       />

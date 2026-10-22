@@ -1,22 +1,16 @@
-import { useRipple, RippleLayer } from "../../hooks/useRipple";
-
 const tones = {
-  primary:
-    "bg-[var(--color-primary-soft)] text-[var(--color-primary)] hover:brightness-95",
-  info: "bg-[var(--color-info-soft)] text-[var(--color-info)] hover:brightness-95",
-  success:
-    "bg-[var(--color-success-soft)] text-[var(--color-success)] hover:brightness-95",
-  danger:
-    "bg-[var(--color-danger-soft)] text-[var(--color-danger)] hover:brightness-95",
-  neutral:
-    "bg-[var(--color-surface-2)] text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]",
+  primary: "text-[var(--color-primary)]",
+  info: "text-[var(--color-info)]",
+  success: "text-[var(--color-success)]",
+  danger: "text-[var(--color-danger)]",
+  neutral: "text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]",
 };
 
 /**
- * `tone` renders an always-visible, filled circular pill: used for
- * datatable row actions per the design spec (never hidden behind hover,
- * always identifiable at a glance). Omit `tone` for the plain ghost
- * icon button used in cards/toolbars.
+ * `tone` renders an always-visible icon button with a quiet neutral fill and a
+ * coloured icon: used for datatable row actions (never hidden behind hover,
+ * always identifiable at a glance). Omit `tone` for the plain ghost icon button
+ * used in cards/toolbars.
  */
 export default function IconButton({
   icon: Icon,
@@ -25,31 +19,22 @@ export default function IconButton({
   tone,
   className = "",
   size = 16,
-  onPointerDown,
   ...props
 }) {
-  const { ripples, onPointerDown: fireRipple } = useRipple();
   const toneClass = tone
-    ? `rounded-full ${tones[tone] || tones.neutral}`
-    : `rounded-lg ${
-        active
-          ? "bg-[var(--color-primary-soft)] text-[var(--color-primary)]"
-          : "text-[var(--color-ink-soft)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-ink)]"
-      }`;
+    ? `bg-[var(--color-surface-2)] hover:bg-[var(--color-border)] ${tones[tone] || tones.neutral}`
+    : active
+      ? "bg-[var(--color-surface-2)] text-[var(--color-ink)]"
+      : "text-[var(--color-ink-soft)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-ink)]";
 
   return (
     <button
       type="button"
       aria-label={label}
       title={label}
-      className={`relative overflow-hidden inline-flex items-center justify-center p-3 transition-all duration-150 active:scale-90 ${toneClass} ${className}`}
-      onPointerDown={(e) => {
-        if (!props.disabled) fireRipple(e);
-        onPointerDown?.(e);
-      }}
+      className={`inline-flex items-center justify-center p-2.5 rounded-[var(--radius-control)] transition-colors duration-150 ${toneClass} ${className}`}
       {...props}
     >
-      <RippleLayer ripples={ripples} tone="dark" />
       <Icon size={size} />
     </button>
   );

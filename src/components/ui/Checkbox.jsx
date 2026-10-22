@@ -29,7 +29,7 @@ export default function Checkbox({
           <Check
             size={13}
             strokeWidth={3}
-            className={`text-[var(--color-primary-ink)] transition-transform duration-150 ${checked ? "scale-100" : "scale-0"}`}
+            className={`text-[var(--color-primary-ink)] ${checked ? "scale-100" : "scale-0"}`}
           />
         </span>
       </span>

@@ -50,7 +50,7 @@ export default function Toolbar({
           onClick={() => fileRef.current?.click()}
           title={t('common.importHint')}
           disabled={importing}
-          className="justify-center inline-flex items-center gap-1.5 font-medium text-sm px-3 sm:px-4 py-2 rounded-[var(--radius-control)] border border-[var(--color-border)] text-[var(--color-ink)] hover:bg-[var(--color-surface-2)] transition-all duration-150 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
+          className="justify-center inline-flex items-center gap-1.5 font-medium text-sm px-3 sm:px-4 py-2 rounded-[var(--radius-control)] border border-[var(--color-border)] text-[var(--color-ink)] hover:bg-[var(--color-surface-2)] transition-all duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {importing ? <Loader2 size={16} className="shrink-0 animate-spin" /> : <Upload size={16} className="shrink-0" />}
           <span>{importing ? t('common.importing') : t('common.import')}</span>
@@ -68,13 +68,13 @@ export default function Toolbar({
         type="button"
         onClick={() => setFiltersOpen((v) => !v)}
         aria-expanded={filtersOpen}
-        className="relative flex items-center justify-between gap-2 w-full px-3.5 py-2.5 rounded-[var(--radius-control)] bg-[var(--color-surface-2)] text-sm font-medium text-[var(--color-ink)] hover:brightness-95 transition-all duration-150 active:scale-[0.99]"
+        className="relative flex items-center justify-between gap-2 w-full px-3.5 py-2.5 rounded-[var(--radius-control)] bg-[var(--color-surface-2)] text-sm font-medium text-[var(--color-ink)] transition-all duration-150"
       >
         <span className="inline-flex items-center gap-2">
           <SlidersHorizontal size={16} className="text-[var(--color-primary)]" />
           {t('common.filter')}
           {hasActiveFilters && (
-            <span className="text-[11px] font-medium rounded-full px-2 py-0.5 bg-[var(--color-primary)] text-[var(--color-primary-ink)]">
+            <span className="text-[11px] font-medium rounded-md px-1.5 py-0.5 bg-[var(--color-primary)] text-[var(--color-primary-ink)]">
               {t('common.filterActive')}
             </span>
           )}
@@ -117,7 +117,7 @@ export default function Toolbar({
                   type="button"
                   onClick={onResetFilters}
                   tabIndex={filtersOpen ? 0 : -1}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--color-danger)] px-3 py-2 rounded-lg bg-[var(--color-danger-soft)] hover:brightness-95 transition-all duration-150 active:scale-95"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--color-danger)] px-3 py-2 rounded-lg bg-[var(--color-danger-soft)] transition-all duration-150"
                 >
                   <RotateCcw size={12} />
                   {t('common.resetFilters')}

@@ -60,7 +60,7 @@ export default function ExportMenu({
 
   const styles =
     variant === 'primary'
-      ? 'bg-[var(--color-primary)] text-[var(--color-primary-ink)] hover:brightness-105 shadow-sm border border-transparent'
+      ? 'bg-[var(--color-primary)] text-[var(--color-primary-ink)] border border-transparent'
       : 'border border-[var(--color-border)] text-[var(--color-ink)] hover:bg-[var(--color-surface-2)]'
 
   return (
@@ -72,7 +72,7 @@ export default function ExportMenu({
         aria-haspopup="menu"
         aria-expanded={open}
         aria-busy={busy || undefined}
-        className={`w-full justify-center inline-flex items-center gap-1.5 font-medium text-sm px-4 py-2 rounded-[var(--radius-control)] transition-all duration-150 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed whitespace-nowrap ${styles}`}
+        className={`w-full justify-center inline-flex items-center gap-1.5 font-medium text-sm px-4 py-2 rounded-[var(--radius-control)] transition-all duration-150 disabled:opacity-60 disabled:cursor-not-allowed whitespace-nowrap ${styles}`}
       >
         {busy ? <Loader2 size={16} className="shrink-0 animate-spin" /> : <Download size={16} className="shrink-0" />}
         <span>{busy ? t('common.exporting') : label || t('common.export')}</span>

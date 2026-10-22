@@ -3,33 +3,29 @@ import { useEffect } from 'react'
 import { PanelLeftClose, PanelLeft, X } from 'lucide-react'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
-import { useRipple, RippleLayer } from '../hooks/useRipple'
 import BrandMark from './BrandMark'
 import { NAV_ITEMS } from '../utils/nav'
 import { Avatar } from './UserCard'
 
 function SidebarLink({ to, label, Icon, collapsed, onClick }) {
-  const { ripples, onPointerDown } = useRipple()
   return (
     <NavLink
       to={to}
       title={collapsed ? label : undefined}
-      onPointerDown={onPointerDown}
       onClick={onClick}
       className={({ isActive }) =>
-        `group relative overflow-hidden flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
+        `group flex items-center gap-3 px-3 py-2 rounded-[var(--radius-control)] text-sm font-medium transition-colors duration-150 ${
           collapsed ? 'justify-center px-0' : ''
         } ${
           isActive
-            ? 'bg-[var(--color-primary)] text-[var(--color-primary-ink)] shadow-sm'
+            ? 'bg-[var(--color-surface-2)] text-[var(--color-ink)]'
             : 'text-[var(--color-ink-soft)] hover:bg-[var(--color-sidebar-hover)] hover:text-[var(--color-ink)]'
         }`
       }
     >
       {({ isActive }) => (
         <>
-          <RippleLayer ripples={ripples} tone={isActive ? 'light' : 'dark'} />
-          <Icon size={18} className="shrink-0 transition-transform duration-150 group-hover:scale-110" />
+          <Icon size={18} className={`shrink-0 ${isActive ? 'text-[var(--color-primary)]' : ''}`} />
           <span className={collapsed ? 'hidden' : ''}>{label}</span>
         </>
       )}
@@ -89,7 +85,7 @@ export default function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onClo
 
   return (
     <>
-      {/* Sidebar desktop: nền violet nhạt để dễ nhận biết, có thể thu gọn. */}
+      {/* Sidebar desktop: nền phẳng, tách khỏi nội dung bằng một đường viền, có thể thu gọn. */}
       <aside
         className={`hidden lg:flex sticky top-0 z-0 h-dvh shrink-0 bg-[var(--color-sidebar)] border-r border-[var(--color-border)] flex-col transition-[width] duration-[250ms] ${
           collapsed ? 'w-20' : 'w-[272px]'
@@ -101,7 +97,7 @@ export default function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onClo
           <button
             type="button"
             onClick={onToggleCollapse}
-            className={`flex w-full items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-[var(--color-ink-soft)] hover:bg-[var(--color-sidebar-hover)] hover:text-[var(--color-ink)] transition-all duration-150 active:scale-[0.98] mb-1 ${
+            className={`flex w-full items-center gap-3 px-3 py-2 rounded-[var(--radius-control)] text-sm font-medium text-[var(--color-ink-soft)] hover:bg-[var(--color-sidebar-hover)] hover:text-[var(--color-ink)] transition-all duration-150 mb-1 ${
               collapsed ? 'justify-center px-0' : ''
             }`}
             title={collapsed ? t('common.expand') : t('common.collapse')}
@@ -123,13 +119,13 @@ export default function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onClo
         inert={!mobileOpen}
       >
         <div
-          className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ease-out ${mobileOpen ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ease-out ${mobileOpen ? 'opacity-100' : 'opacity-0'}`}
           onClick={onCloseMobile}
           aria-hidden="true"
         />
         <aside
           className={`absolute left-0 top-0 h-full w-[82%] max-w-[300px] bg-[var(--color-sidebar)] border-r border-[var(--color-border)] flex flex-col pt-[env(safe-area-inset-top)] will-change-transform transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-            mobileOpen ? 'translate-x-0 shadow-[var(--shadow-modal)]' : '-translate-x-full'
+            mobileOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
           <div className="flex items-center justify-between pr-2">
@@ -138,7 +134,7 @@ export default function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onClo
               type="button"
               onClick={onCloseMobile}
               aria-label={t('common.close')}
-              className="rounded-lg p-2 text-[var(--color-ink-soft)] hover:bg-[var(--color-sidebar-hover)] hover:text-[var(--color-ink)]"
+              className="rounded-[var(--radius-control)] p-2 text-[var(--color-ink-soft)] hover:bg-[var(--color-sidebar-hover)] hover:text-[var(--color-ink)]"
             >
               <X size={18} />
             </button>

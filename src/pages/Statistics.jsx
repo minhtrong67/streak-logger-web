@@ -16,28 +16,20 @@ import Button from '../components/ui/Button'
 import EmptyState from '../components/ui/EmptyState'
 import { SkeletonStatCard } from '../components/ui/Skeleton'
 
-/** Thẻ số liệu nền màu nổi bật (gradient violet và các màu bổ trợ). */
-const CARD_STYLES = [
-  'from-violet-600 to-violet-500',
-  'from-indigo-600 to-indigo-500',
-  'from-purple-600 to-fuchsia-500',
-  'from-sky-600 to-sky-500',
-  'from-emerald-600 to-emerald-500',
-]
-
-function StatCard({ icon: Icon, label, value, sub, tone = 0, delay = 0 }) {
+/** Thẻ số liệu: nền phẳng, viền mảnh, số liệu là điểm nhấn duy nhất. */
+function StatCard({ icon: Icon, label, value, sub, delay = 0 }) {
   return (
     <div
-      className={`stagger-item card-hover group rounded-[var(--radius-card)] bg-gradient-to-br ${CARD_STYLES[tone % CARD_STYLES.length]} text-white shadow-[var(--shadow-card)] p-4 sm:p-5 flex items-start gap-3`}
+      className="stagger-item card-hover rounded-[var(--radius-card)] bg-[var(--color-surface)] border border-[var(--color-border)] p-4 sm:p-5 flex flex-col gap-3"
       style={{ '--stagger-delay': `${delay}ms` }}
     >
-      <div className="shrink-0 w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
-        <Icon size={18} />
+      <div className="flex items-center gap-2 text-[var(--color-ink-soft)]">
+        <Icon size={16} className="shrink-0" />
+        <p className="text-xs truncate">{label}</p>
       </div>
       <div className="min-w-0">
-        <p className="text-xs text-white/85">{label}</p>
-        <p className="text-xl font-semibold tabular truncate">{value}</p>
-        {sub && <p className="text-xs text-white/80 mt-0.5 truncate">{sub}</p>}
+        <p className="text-2xl font-semibold tabular truncate text-[var(--color-ink)]">{value}</p>
+        {sub && <p className="text-xs text-[var(--color-ink-soft)] mt-0.5 truncate">{sub}</p>}
       </div>
     </div>
   )
@@ -53,7 +45,7 @@ function ChartCard({ title, children }) {
 }
 
 const tooltipProps = {
-  contentStyle: { background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 12, fontSize: 12 },
+  contentStyle: { background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, fontSize: 12 },
   labelStyle: { color: 'var(--color-ink)' },
   itemStyle: { color: 'var(--color-ink)' },
   cursor: { fill: 'var(--color-primary-soft)', opacity: 0.5 },
@@ -171,8 +163,8 @@ export default function Statistics() {
                   type="button"
                   onClick={() => changeRange(g)}
                   aria-pressed={rangeKey === g}
-                  className={`flex-1 sm:flex-none px-4 py-2 rounded-[calc(var(--radius-control)-4px)] text-sm font-medium transition-all duration-150 active:scale-95 ${
-                    rangeKey === g ? 'bg-[var(--color-primary)] text-[var(--color-primary-ink)] shadow-sm' : 'text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]'
+                  className={`flex-1 sm:flex-none px-4 py-2 rounded-[calc(var(--radius-control)-4px)] text-sm font-medium transition-all duration-150 ${
+                    rangeKey === g ? 'bg-[var(--color-surface)] text-[var(--color-ink)] border border-[var(--color-border)]' : 'border border-transparent text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]'
                   }`}
                 >
                   {rangeLabels[g]}
@@ -184,7 +176,7 @@ export default function Statistics() {
                 type="button"
                 onClick={() => setOffset((o) => o - 1)}
                 aria-label={t('stats.prev')}
-                className="w-9 h-9 rounded-[var(--radius-control)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-ink-soft)] hover:bg-[var(--color-surface-2)] transition-colors active:scale-95"
+                className="w-9 h-9 rounded-[var(--radius-control)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-ink-soft)] hover:bg-[var(--color-surface-2)] transition-colors"
               >
                 <ChevronLeft size={16} />
               </button>
@@ -200,7 +192,7 @@ export default function Statistics() {
                 onClick={() => setOffset((o) => o + 1)}
                 disabled={offset >= 0}
                 aria-label={t('stats.next')}
-                className="w-9 h-9 rounded-[var(--radius-control)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-ink-soft)] hover:bg-[var(--color-surface-2)] transition-colors active:scale-95 disabled:opacity-40 disabled:pointer-events-none"
+                className="w-9 h-9 rounded-[var(--radius-control)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-ink-soft)] hover:bg-[var(--color-surface-2)] transition-colors disabled:opacity-40 disabled:pointer-events-none"
               >
                 <ChevronRight size={16} />
               </button>
@@ -209,12 +201,12 @@ export default function Statistics() {
 
           {/* Thẻ số liệu */}
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-            <StatCard tone={0} icon={Clock} label={t('stats.currentStreak')} value={streakDays !== null ? `${streakDays} ${t('stats.days')}` : t('stats.noStreakYet')} sub={streak?.title} delay={0} />
-            <StatCard tone={1} icon={NotebookText} label={t('stats.totalPosts')} value={metrics.total} delay={40} />
-            <StatCard tone={2} icon={CalendarDays} label={t('stats.activeDays')} value={metrics.activeDays} delay={80} />
-            <StatCard tone={3} icon={TrendingUp} label={t('stats.average')} value={metrics.average} sub={t('stats.entries')} delay={120} />
+            <StatCard icon={Clock} label={t('stats.currentStreak')} value={streakDays !== null ? `${streakDays} ${t('stats.days')}` : t('stats.noStreakYet')} sub={streak?.title} delay={0} />
+            <StatCard icon={NotebookText} label={t('stats.totalPosts')} value={metrics.total} delay={40} />
+            <StatCard icon={CalendarDays} label={t('stats.activeDays')} value={metrics.activeDays} delay={80} />
+            <StatCard icon={TrendingUp} label={t('stats.average')} value={metrics.average} sub={t('stats.entries')} delay={120} />
             <div className="col-span-2 lg:col-span-1">
-              <StatCard tone={4} icon={Sun} label={t('stats.mostActivePeriod')} value={metrics.busiest ? metrics.busiest.name : '-'} sub={metrics.busiest ? `${metrics.busiest.count} ${t('stats.entries')}` : ''} delay={160} />
+              <StatCard icon={Sun} label={t('stats.mostActivePeriod')} value={metrics.busiest ? metrics.busiest.name : '-'} sub={metrics.busiest ? `${metrics.busiest.count} ${t('stats.entries')}` : ''} delay={160} />
             </div>
           </div>
 

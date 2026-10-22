@@ -4,82 +4,89 @@
 
 /* ============================================================
    Design tokens - phong cách Modern Minimalist.
-   Màu chủ đạo: Violet của Tailwind CSS.
-   Giao diện sáng dùng nền Zinc rất nhạt, giao diện tối dùng
-   thang màu Zinc của Tailwind. Màu trạng thái (thành công, cảnh
-   báo, lỗi, thông tin) tách riêng để không nhầm với màu nhấn.
+   - Nền phẳng, phân tách bằng đường viền mảnh thay vì đổ bóng.
+   - Bảng màu trung tính (Zinc); Violet chỉ dùng làm màu nhấn
+     cho nút chính, mục đang chọn và vòng focus.
+   - Bo góc nhỏ và đồng đều, không gradient, không hiệu ứng ripple.
+   Màu nền `--color-bg` phải khớp với màn hình chờ trong index.html,
+   manifest và ảnh splash (public/splash) để không bị nháy khi mở PWA.
    ============================================================ */
 :root {
-  --color-bg: #fafafa; /* zinc-50 */
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
   --color-surface-2: #f4f4f5; /* zinc-100 */
-  --color-sidebar: #f5f3ff; /* violet-50 */
-  --color-sidebar-hover: #ede9fe; /* violet-100 */
+  --color-sidebar: #ffffff;
+  --color-sidebar-hover: #f4f4f5;
   --color-border: #e4e4e7; /* zinc-200 */
   --color-divider: #a1a1aa; /* zinc-400 */
   --color-ink: #18181b; /* zinc-900 */
-  --color-ink-soft: #52525b; /* zinc-600 */
+  --color-ink-soft: #71717a; /* zinc-500 */
 
   --color-primary: #7c3aed; /* violet-600 */
   --color-primary-ink: #ffffff;
-  --color-primary-soft: #ede9fe; /* violet-100 */
+  --color-primary-soft: #f5f3ff; /* violet-50 */
   --color-primary-strong: #6d28d9; /* violet-700 */
 
   --color-success: #047857;
-  --color-success-soft: #d1fae5;
+  --color-success-soft: #ecfdf5;
   --color-warning: #b45309;
-  --color-warning-soft: #fef3c7;
+  --color-warning-soft: #fffbeb;
   --color-danger: #dc2626;
-  --color-danger-soft: #fee2e2;
+  --color-danger-soft: #fef2f2;
   --color-danger-solid: #dc2626;
   --color-info: #0369a1;
-  --color-info-soft: #e0f2fe;
+  --color-info-soft: #f0f9ff;
 
-  --radius-control: 12px;
-  --radius-card: 16px;
-  --radius-modal: 24px;
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-modal: 16px;
 
-  --shadow-card: 0 1px 2px rgba(24, 24, 27, 0.04), 0 4px 16px rgba(24, 24, 27, 0.05);
-  --shadow-modal: 0 8px 16px rgba(24, 24, 27, 0.08), 0 24px 48px rgba(24, 24, 27, 0.14);
+  /* Thẻ không đổ bóng; chỉ lớp nổi (menu, hộp thoại) có một bóng rất nhẹ. */
+  --shadow-card: none;
+  --shadow-modal: 0 8px 30px rgba(24, 24, 27, 0.08);
 
   color-scheme: light;
 }
 
-/* Giao diện tối: thang màu Zinc. */
+/* Giao diện tối: nền gần đen, bề mặt tách bằng viền. */
 .dark {
   --color-bg: #09090b; /* zinc-950 */
-  --color-surface: #18181b; /* zinc-900 */
-  --color-surface-2: #27272a; /* zinc-800 */
-  --color-sidebar: #18181b;
-  --color-sidebar-hover: #27272a;
-  --color-border: #3f3f46; /* zinc-700 */
-  --color-divider: #71717a; /* zinc-500 */
+  --color-surface: #09090b;
+  --color-surface-2: #18181b; /* zinc-900 */
+  --color-sidebar: #09090b;
+  --color-sidebar-hover: #18181b;
+  --color-border: #27272a; /* zinc-800 */
+  --color-divider: #52525b; /* zinc-600 */
   --color-ink: #fafafa; /* zinc-50 */
   --color-ink-soft: #a1a1aa; /* zinc-400 */
 
   --color-primary: #a78bfa; /* violet-400 */
   --color-primary-ink: #1e0a4a;
-  --color-primary-soft: #2e1065; /* violet-950 */
+  --color-primary-soft: #1e1537;
   --color-primary-strong: #c4b5fd; /* violet-300 */
 
   --color-success: #34d399;
-  --color-success-soft: #064e3b;
+  --color-success-soft: #052e22;
   --color-warning: #fbbf24;
-  --color-warning-soft: #451a03;
+  --color-warning-soft: #2b1704;
   --color-danger: #f87171;
-  --color-danger-soft: #450a0a;
+  --color-danger-soft: #2d0a0a;
   --color-danger-solid: #dc2626;
   --color-info: #38bdf8;
-  --color-info-soft: #082f49;
+  --color-info-soft: #06222f;
 
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 20px -10px rgba(0, 0, 0, 0.6);
-  --shadow-modal: 0 8px 16px rgba(0, 0, 0, 0.5), 0 32px 64px rgba(0, 0, 0, 0.65);
+  --shadow-card: none;
+  --shadow-modal: 0 8px 30px rgba(0, 0, 0, 0.6);
 
   color-scheme: dark;
 }
 
 * {
   border-color: var(--color-border);
+}
+
+html {
+  background-color: var(--color-bg);
 }
 
 html,
@@ -95,7 +102,6 @@ body {
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 button,
@@ -124,23 +130,23 @@ textarea {
   background-clip: content-box;
 }
 
-/* ---------- Animation ---------- */
+/* ---------- Animation: ngắn, nhẹ, chỉ để báo hiệu thay đổi ---------- */
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @keyframes modal-in {
-  from { opacity: 0; transform: translateY(16px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .page-enter {
-  animation: fade-in-up 0.26s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: fade-in-up 0.2s ease-out;
 }
 
 @keyframes shimmer {
@@ -153,60 +159,37 @@ textarea {
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
+/* Thẻ chỉ đổi màu viền khi rê chuột, không nhấc lên hay đổ bóng. */
 .card-hover {
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  transition: border-color 0.15s ease;
 }
 .card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-modal);
+  border-color: var(--color-divider);
 }
 
-/* Bề mặt đặc (không mờ kính) dùng cho Modal, Toast, CommandPalette, BottomNav. */
+/* Bề mặt đặc dùng cho Modal, Toast, CommandPalette, BottomNav. */
 .glass-surface {
   background-color: var(--color-surface);
 }
 
-@keyframes stagger-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Danh sách hiện dần bằng độ mờ, không trượt. */
 .stagger-item {
-  animation: stagger-in 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: fade-in 0.2s ease-out both;
   animation-delay: var(--stagger-delay, 0ms);
 }
 
 @keyframes toast-in {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes pulse-soft {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(0.96); }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 .pulse-soft {
   animation: pulse-soft 1.6s ease-in-out infinite;
 }
-
-/* Hiệu ứng ripple khi bấm. Container cần `position: relative; overflow: hidden`. */
-@keyframes ripple-scale {
-  from { transform: scale(0); }
-  to { transform: scale(1); }
-}
-@keyframes ripple-fade {
-  0% { opacity: 1; }
-  55% { opacity: 0.8; }
-  100% { opacity: 0; }
-}
-.ripple {
-  position: absolute;
-  border-radius: 9999px;
-  pointer-events: none;
-  transform: scale(0);
-  animation: ripple-scale 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, ripple-fade 0.55s ease-out forwards;
-}
-.ripple-light { background: rgba(255, 255, 255, 0.45); }
-.ripple-dark { background: rgba(124, 58, 237, 0.16); }
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -236,7 +219,6 @@ textarea {
 :focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
-  border-radius: 6px;
 }
 
 /* Vùng vuốt trên mobile: cho phép cuộn dọc, ngang do component tự xử lý. */
